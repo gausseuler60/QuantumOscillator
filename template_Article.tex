@@ -1,0 +1,193 @@
+\documentclass[]{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{ {./images/} }
+
+%opening
+\title{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\section{Mechanical oscillator, simple Hamiltonian system}
+
+As a mechanical case, let's consider a mechanical oscillator with two interacting objects of mass $M$ connected with spring of elasticity $k_g$. A resistance force $F = -\beta {\dot x}^2 $ acts on the second object.
+\begin{figure}[h]
+	\centering
+	 \includegraphics{Fig 1.png}
+	 \caption{Mechanical oscillator setup}
+\end{figure}\newline
+
+We will use generalized coordinates $x_1(t)$ and $x_2(t)$ as deflections from balance position for  object 1 and 2, respctively.\newline
+First, consider a system without dissipations: 
+System Lagrangian (without dissipation):\newline
+\begin{align*}
+L &= \frac{M}{2}\left({\dot x_1}^2 + {\dot x_2}^2\right) - \frac{k}{2}\left(x_1^2 + x_2^2\right) - \frac{k_g}{2}\left(x_2-x_1\right)^2\\
+\end{align*}
+System Hamiltonian:
+\begin{equation}
+H = \frac{p_1^2}{2M} + \frac{p_2^2}{2M} + \frac{k}{2}\left(x_1^2 + x_2^2\right) + \frac{k_g}{2}\left(x_2 - x_1\right)^2
+\end{equation}
+Following motion equations:\newline
+\begin{align*}
+	\begin{cases}
+		\dot x_1 = \frac{p_1}{M}
+		\\
+		\dot x_2 = \frac{p_2}{M}
+		\\
+		\dot p_1 = -(k+k_g)x_1 + k_g x_2
+		\\
+		\dot p_2 = k_gx_1 - x_2(k+k_g)
+	\end{cases}
+\end{align*}
+Now add the dissipative force to the second equation:
+\begin{align*}
+	\begin{cases}
+		\dot x_1 = \frac{p_1}{M}
+		\\
+		\dot x_2 = \frac{p_2}{M}
+		\\
+		\dot p_1 = -(k+k_g)x_1 + k_g x_2
+		\\
+		\dot p_2 = k_gx_1 - x_2(k+k_g) - \beta \dot x_1
+	\end{cases}
+\end{align*}
+To investigate system damping behavior depending on different parameter values, plot real and complex parts of system eigenvalues:
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{Fig 2.png}
+	\caption{System damping depending on resistance coefficient $\beta$}
+\end{figure}\newline
+
+As can be easily noticed, there are two components which will never be equal to zero for any arbitrary large $\beta$. This is a real part ($Re \lambda_1$) and imaginary one ($Im \lambda_4$). Thus, motion equation will always contain a damping exponent (from real part) and sine/cosine oscillating part. With $\beta$ increment a quotient in an exponent will increase, leading to more intensive damping.
+
+Expressions for $x_1(t)$ and $x_2(t)$ are very complicated to be written down. Solution was found numerically with Adams method using Python (\textit{scipy.integrate.odeint} method from SciPy library). Results are shown in fig.3.
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.5\textheight}
+		\includegraphics[scale=0.3]{Fig 3__1.png}
+		\caption{$k \sim k_g, M=10, \beta = 0..30$}
+	\end{subfigure}
+	\begin{subfigure}{0.5\textheight}
+		\includegraphics[scale=0.3]{Fig 3__2.png}
+		\caption{$k<<k_g, k>>k_g$}
+	\end{subfigure}
+	\caption{\centering Fig.3. Motion differential equations solutions, $x(t)$. (a) $k \sim k_g$, different resistance ($\beta$). (b) (left) $k<<k_g$ (strong interaction), $\beta=0$. Two objects are oscillating together like one object. (center) $k>>k_g$ (weak interaction), $\beta=0$. Beats are observed. (right) $k>>k_g, \beta \ne 0$, damping beats.}
+\end{figure}
+\section{Rotating wave approximation}
+
+To simplify equations system and write down analytical solution, an attempt to use a method frequently used in quantum mechanics was made. We used new coordinates which will be constant if it is no interaction ($k_g=0$).
+\newline We introduced new complex conjugated coordinates $a$ and $a^\dag$. (In quantum mechanics, they are particle creation and annihilation operators). They can be expressed from $x$ and $p$ using following equations:
+\begin{align*}
+	\begin{cases}
+		\hat{x} = \sqrt{\frac{\hbar}{2M\omega}}\left(a+a^\dag\right)
+		\\
+		\hat{p} = i\sqrt{\frac{\hbar M \omega}{2}}\left(a-a^\dag\right)
+	\end{cases}	
+\end{align*}
+
+In our mechanical system, $\hat{x}$ and $\hat{p}$  operators are just scalars, $x(t)$ and $p(t)$. Consider $\hbar=1$.\newline
+
+Check whether this transform is canonical and find its valence.
+For canonicity, the following conditions must be met:
+\begin{align*}
+	\begin{cases}
+		\{p_1(a_1, a^\dag_1), p_2(a_2, a^\dag_2)\}=0
+		\\
+		\{x_1(a_1, a^\dag_1), x_2(a_2, a^\dag_2)\}=0
+		\\
+		\{x_1(a_1, a^\dag_1), p_1(a_1, a^\dag_1)\}=c
+		\\
+		\{x_2(a_2, a^\dag_2), p_2(a_2, a^\dag_2)\}=c
+		\\
+		\{x_1(a_1, a^\dag_1), p_2(a_2, a^\dag_2)\}=0
+		\\
+		\{x_2(a_2, a^\dag_2), p_1(a_1, a^\dag_1)\}=0
+	\end{cases}
+\end{align*}
+Check these conditions:
+\begin{align*}
+	\begin{cases}
+		\{p_1(a_1, a^\dag_1), p_2(a_2, a^\dag_2)\}=\left(\frac{\partial p_1}{\partial a_1} \frac{\partial p_2}{\partial a_1^\dag} - \frac{\partial p_1}{\partial a_1^\dag} \frac{\partial p_2}{\partial a_1}\right) + \left(\frac{\partial p_1}{\partial a_2} \frac{\partial p_2}{\partial a_2^\dag} - \frac{\partial p_1}{\partial a_2^\dag} \frac{\partial p_2}{\partial a_2} \right)=0
+		\\
+		\{x_1(a_1, a^\dag_1), x_2(a_2, a^\dag_2)\}=0 (similarly)
+		\\
+		\{x_1(a_1, a^\dag_1), p_1(a_1, a^\dag_1)\}=\left(\frac{\partial x_1}{\partial a_1} \frac{\partial p_1}{\partial a_1^\dag} - \frac{\partial x_1}{\partial a_1^\dag} \frac{\partial p_1}{\partial a_1}\right) + \left(\frac{\partial x_1}{\partial a_2} \frac{\partial p_1}{\partial a_2^\dag} - \frac{\partial x_1}{\partial a_2^\dag} \frac{\partial p_1}{\partial a_2} \right) = \sqrt{\frac{1}{2M \omega}} i \sqrt{\frac{m \omega}{2}}+\sqrt{\frac{1}{2M \omega}} i \sqrt{\frac{m \omega}{2}}=i
+		\\
+		\{x_2(a_2, a^\dag_2), p_2(a_2, a^\dag_2)\}=i (similarly) 
+		\\
+		\{x_1(a_1, a^\dag_1), p_2(a_2, a^\dag_2)\}=\left(\frac{\partial x_1}{\partial a_1} \frac{\partial p_2}{\partial a_1^\dag} - \frac{\partial x_1}{\partial a_1^\dag} \frac{\partial p_2}{\partial a_1}\right) + \left(\frac{\partial x_1}{\partial a_2} \frac{\partial p_2}{\partial a_2^\dag} - \frac{\partial x_1}{\partial a_2^\dag} \frac{\partial p_2}{\partial a_2} \right)=0
+		\\
+		\{x_2(a_2, a^\dag_2), p_1(a_1, a^\dag_1)\}=0 (similarly)
+	\end{cases}
+\end{align*}
+These are canonical equations with valence $i$.
+So, Hamiltonian (1) will look like:
+
+\begin{align*}
+	H=i a_1 a_1^\dag \omega + i a_2 a_2^\dag \omega - ig(a_1+a_1^\dag)(a_2+a_2^\dag),
+\end{align*}
+where $g = \frac{k_g}{2\sqrt{M}\sqrt{k+k_g}}$ - interaction constant.\newline
+
+Now write down Hamilton equations. We will write only equations for $a_1$ and $a_2$, because another two equations are just complex conjugates of first ones and are not sufficient.
+\begin{align*}
+	\begin{cases}
+		\dot a_1 = -a_1 i \omega + ig(a_2 + a_2^\dag)
+		\\
+		\dot a_2 = -a_2 i \omega + ig(a_1 + a_1^\dag)
+	\end{cases}
+\end{align*}
+Now make the following ansatz: $a_1(t) = a_1(t)e^{-i\omega t}, a_2(t) = a_2(t)e^{-i\omega t}$:
+\begin{align*}
+	\begin{cases}
+		\dot a_1(t) = ig(a_2(t)e^{-i\omega t} + a_2(t)e^{i\omega t})
+		\\
+		\dot a_2(t) = ig(a_1(t)e^{-i\omega t} + a_1(t)e^{i\omega t})
+	\end{cases}
+\end{align*}
+
+In case of weak connection ($k>>k_g$) one can apply rotating wave approximation (RWA). It allows to remove slowly oscillating members from equations. Here, $e^{i\omega t} \approx 0$, so then:
+\begin{align*}
+	\begin{cases}
+		\dot a_1 = iga_2
+		\\
+		\dot a_2 = iga_1
+	\end{cases}
+\end{align*}
+And with dissipation:
+\begin{align*}
+	\begin{cases}
+		\dot a_1 = iga_2
+		\\
+		\dot a_2 = iga_1 - \frac{\beta}{2}a_2 
+	\end{cases}
+\end{align*}
+System eigenvalues:
+\begin{align*}
+	\lambda_{1,2} = -\frac{\beta}{4} \pm \frac{\sqrt{\beta^2-16g^2}}{4}
+\end{align*}
+Real and complex parts of eigenvalues depending on resistance coefficient $\beta$ (fig. 4):
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{Fig 4.png}
+	\caption{System damping depending on resistance coefficient $\beta$}
+\end{figure}\newline
+Corresponding eigenvectors:
+\begin{align*}
+		v_{1,2} = \left(-\frac{4ig}{b \mp \sqrt{b^2-16g^2}}, 1	\right)
+\end{align*}
+Now a solution can be written down in a more simple way. Solutions are shown on fig. 5. As expected, RWA can yield exact result only if $k>>k_g$
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.3]{Fig 5.png}
+	\caption{System motion differential equations solved classically and using RWA. (a): {$k>>k_g$}, approximation yields good quality. (b): {$k \sim k_g$}, significant error increases over time.}
+\end{figure}
+
+\end{document}
