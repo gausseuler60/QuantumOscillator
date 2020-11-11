@@ -21,7 +21,7 @@
 As a mechanical case, let's consider a mechanical oscillator with two interacting objects of mass $M$ connected with spring of elasticity $k_g$. A resistance force $F = -\beta {\dot x}^2 $ acts on the second object.
 \begin{figure}[h]
 	\centering
-	 \includegraphics{Fig 1.png}
+	 \includegraphics{Fig_1.png}
 	 \caption{Mechanical oscillator setup}
 \end{figure}\newline
 
@@ -62,7 +62,7 @@ Now add the dissipative force to the second equation:
 To investigate system damping behavior depending on different parameter values, plot real and complex parts of system eigenvalues:
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.35]{Fig 2.png}
+	\includegraphics[scale=0.35]{Fig_2.pdf}
 	\caption{System damping depending on resistance coefficient $\beta$}
 \end{figure}\newline
 
@@ -70,13 +70,12 @@ As can be easily noticed, there are two components which will never be equal to 
 
 Expressions for $x_1(t)$ and $x_2(t)$ are very complicated to be written down. Solution was found numerically with Adams method using Python (\textit{scipy.integrate.odeint} method from SciPy library). Results are shown in fig.3.
 \begin{figure}
-	\centering
 	\begin{subfigure}{0.5\textheight}
-		\includegraphics[scale=0.3]{Fig 3__1.png}
+		\includegraphics[scale=0.3]{Fig_3_a.pdf}
 		\caption{$k \sim k_g, M=10, \beta = 0..30$}
 	\end{subfigure}
 	\begin{subfigure}{0.5\textheight}
-		\includegraphics[scale=0.3]{Fig 3__2.png}
+		\includegraphics[scale=0.3]{Fig_3_b.pdf}
 		\caption{$k<<k_g, k>>k_g$}
 	\end{subfigure}
 	\caption{\centering Fig.3. Motion differential equations solutions, $x(t)$. (a) $k \sim k_g$, different resistance ($\beta$). (b) (left) $k<<k_g$ (strong interaction), $\beta=0$. Two objects are oscillating together like one object. (center) $k>>k_g$ (weak interaction), $\beta=0$. Beats are observed. (right) $k>>k_g, \beta \ne 0$, damping beats.}
@@ -176,7 +175,7 @@ System eigenvalues:
 Real and complex parts of eigenvalues depending on resistance coefficient $\beta$ (fig. 4):
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.35]{Fig 4.png}
+	\includegraphics[scale=0.35]{Fig_4.pdf}
 	\caption{System damping depending on resistance coefficient $\beta$}
 \end{figure}\newline
 Corresponding eigenvectors:
@@ -186,7 +185,7 @@ Corresponding eigenvectors:
 Now a solution can be written down in a more simple way. Solutions are shown on fig. 5. As expected, RWA can yield exact result only if $k>>k_g$
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=0.3]{Fig 5.png}
+	\includegraphics[scale=0.3]{Fig_5.pdf}
 	\caption{System motion differential equations solved classically and using RWA. (a): {$k>>k_g$}, approximation yields good quality. (b): {$k \sim k_g$}, significant error increases over time.}
 \end{figure}
 
