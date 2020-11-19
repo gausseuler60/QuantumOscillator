@@ -55,7 +55,7 @@ def grid_plot(k,kg,M,fname,t=None,betas=None,n_cols=3):
 
 #fig. 3(a)
 grid_plot(10, 5, 10,
-          os.path.join(os.getcwd(), 'Plots', 'Fig_3_a.pdf'),
+          os.path.join(os.getcwd(), '..', 'images', 'Fig_3_a.pdf'),
               t=np.arange(1,60,0.01), betas=[0,5,30])
 
 #fig. 3(b)
@@ -63,6 +63,6 @@ fig, axes = plt.subplots(1, 3, figsize=(25,5))
 PlotOne(axes[0], np.arange(1, 60, 0.01), 3, 30, 10, 0)
 PlotOne(axes[1], np.arange(1, 60, 0.01), 30, 3, 10, 0)
 PlotOne(axes[2], np.arange(1, 300, 0.01), 30, 3, 10, 0.05)
-fig.savefig(os.path.join(os.getcwd(), 'Plots', 'Fig_3_b.pdf'))
+fig.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_3_b.pdf'))
 plt.show()
 

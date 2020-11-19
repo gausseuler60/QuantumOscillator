@@ -35,6 +35,6 @@ for i, v in enumerate(vals):
 plt.legend()
 plt.xlabel(r'$\beta$')
 plt.ylabel(r'$\lambda_{1,2}$')
-plt.savefig(os.path.join(os.getcwd(), 'Plots', 'Fig_4.pdf'))
+plt.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_4.pdf'))
 plt.show()
 

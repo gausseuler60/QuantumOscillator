@@ -86,5 +86,5 @@ for i, p in enumerate(params):
     classic = get_solution_classic(t, *p, init_cond)
     PlotOne(ax[i], x1, x2, classic, *p)
 
-plt.savefig(os.path.join(os.getcwd(), 'Plots', 'Fig_5.pdf'))
+plt.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_5.pdf'))
 plt.show()

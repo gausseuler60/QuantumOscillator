@@ -1,27 +1,61 @@
-\documentclass[]{article}
+\documentclass[%
+aps, pra,
+% jmp,
+% bmf,
+% sd,
+% rsi,
+amsmath,amssymb,
+%preprint,%
+reprint,%
+%author-year,%
+%author-numerical,%
+% Conference Proceedings
+superscriptaddress
+]{revtex4-2}
+
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \graphicspath{ {./images/} }
 
-%opening
-\title{}
-\author{}
 
 \begin{document}
 
-\maketitle
+%opening
+\title{Comparing dynamics of dissipative nonlinear coupled oscillators in classical and quantum mechanics}
+\author{I.?. Nazestkin}
+	\affiliation{ 
+	Moscow Institute of Physics and Technology, Dolgoprundiy, Russia
+}
+\affiliation{ 
+	Russian Quantum Center, National University of Science and Technology MISIS, 119049 Moscow, Russia
+}%
+\author{Y.?. Babich}
+	\affiliation{ 
+	Moscow Institute of Physics and Technology, Dolgoprundiy, Russia
+}
+\author{G.P. Fedorov}
+	\affiliation{ 
+	Moscow Institute of Physics and Technology, Dolgoprundiy, Russia
+}
+\affiliation{ 
+	Russian Quantum Center, National University of Science and Technology MISIS, 119049 Moscow, Russia
+}%
 
 \begin{abstract}
-
+We discuss similarities and differences in the behavior of models describing two coupled nonlinear oscillators in the classical and quantum description. Starting from the linear case when the dynamics is similar for both limits, we obtain analytical solutions for a useful case when friction in one of the oscillators is dominating. We show that a concise solution is attained for this case within RWA and that the vacuum Rabi-splitting is reproduced by classical mechanics. Next, we turn on the cosine nonlinearity in the system and compare the transmission spectra for high-amplitude driving. We highlight the similarities between quantum Rabi oscillations and the amplitude beatings in the classical nonlinear system. Finally, we discuss the differences between the preditions of the classical and quantum physics on the cross-Kerr interaction between the oscillators when they are detuned. We believe that this work will be useful as an introductory guide for students entering the field of superconducting quantum computing.
 \end{abstract}
+
+\maketitle
+
+\section{Introduction}
 
 \section{Mechanical oscillator, simple Hamiltonian system}
 
 As a mechanical case, let's consider a mechanical oscillator with two interacting objects of mass $M$ connected with spring of elasticity $k_g$. A resistance force $F = -\beta {\dot x}^2 $ acts on the second object.
 \begin{figure}[h]
 	\centering
-	 \includegraphics{Fig_1.png}
+	 %\includegraphics{Fig_2.png}
 	 \caption{Mechanical oscillator setup}
 \end{figure}\newline
 
@@ -69,17 +103,13 @@ To investigate system damping behavior depending on different parameter values, 
 As can be easily noticed, there are two components which will never be equal to zero for any arbitrary large $\beta$. This is a real part ($Re \lambda_1$) and imaginary one ($Im \lambda_4$). Thus, motion equation will always contain a damping exponent (from real part) and sine/cosine oscillating part. With $\beta$ increment a quotient in an exponent will increase, leading to more intensive damping.
 
 Expressions for $x_1(t)$ and $x_2(t)$ are very complicated to be written down. Solution was found numerically with Adams method using Python (\textit{scipy.integrate.odeint} method from SciPy library). Results are shown in fig.3.
-\begin{figure}
-	\begin{subfigure}{0.5\textheight}
-		\includegraphics[scale=0.3]{Fig_3_a.pdf}
-		\caption{$k \sim k_g, M=10, \beta = 0..30$}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textheight}
-		\includegraphics[scale=0.3]{Fig_3_b.pdf}
-		\caption{$k<<k_g, k>>k_g$}
-	\end{subfigure}
-	\caption{\centering Fig.3. Motion differential equations solutions, $x(t)$. (a) $k \sim k_g$, different resistance ($\beta$). (b) (left) $k<<k_g$ (strong interaction), $\beta=0$. Two objects are oscillating together like one object. (center) $k>>k_g$ (weak interaction), $\beta=0$. Beats are observed. (right) $k>>k_g, \beta \ne 0$, damping beats.}
-\end{figure}
+\begin{figure*}
+	\includegraphics[scale=0.3]{Fig_3_a.pdf}
+	
+	\includegraphics[scale=0.3]{Fig_3_b.pdf}
+	\caption{Motion differential equations solutions, $x(t)$. (a) $k \sim k_g$, different resistance ($\beta$). (b) (left) $k<<k_g$ (strong interaction), $\beta=0$. Two objects are oscillating together like one object. (center) $k>>k_g$ (weak interaction), $\beta=0$. Beats are observed. (right) $k>>k_g, \beta \ne 0$, damping beats.}
+\end{figure*}
+
 \section{Rotating wave approximation}
 
 To simplify equations system and write down analytical solution, an attempt to use a method frequently used in quantum mechanics was made. We used new coordinates which will be constant if it is no interaction ($k_g=0$).

@@ -42,5 +42,5 @@ for i, tit in enumerate(titles):
     plt.ylabel('Eigenvalues')
     plt.plot(betas, eigvals[:,i], linewidth=2, label=tit)
 plt.legend()  
-plt.savefig(os.path.join(os.getcwd(), 'Plots', 'Fig_2.pdf'))
+plt.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_2.pdf'))
 plt.show()
