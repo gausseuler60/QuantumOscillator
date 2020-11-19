@@ -25,7 +25,7 @@ As a mechanical case, let's consider a mechanical oscillator with two interactin
 	 \caption{Mechanical oscillator setup}
 \end{figure}\newline
 
-We will use generalized coordinates $x_1(t)$ and $x_2(t)$ as deflections from balance position for  object 1 and 2, respctively.\newline
+We will use generalized coordinates $x_1(t)$ and $x_2(t)$ as displacements from balance position for  object 1 and 2, respctively.\newline
 First, consider a system without dissipations: 
 System Lagrangian (without dissipation):\newline
 \begin{align*}
@@ -111,31 +111,18 @@ For canonicity, the following conditions must be met:
 		\{x_2(a_2, a^\dag_2), p_1(a_1, a^\dag_1)\}=0
 	\end{cases}
 \end{align*}
-Check these conditions:
-\begin{align*}
-	\begin{cases}
-		\{p_1(a_1, a^\dag_1), p_2(a_2, a^\dag_2)\}=\left(\frac{\partial p_1}{\partial a_1} \frac{\partial p_2}{\partial a_1^\dag} - \frac{\partial p_1}{\partial a_1^\dag} \frac{\partial p_2}{\partial a_1}\right) + \left(\frac{\partial p_1}{\partial a_2} \frac{\partial p_2}{\partial a_2^\dag} - \frac{\partial p_1}{\partial a_2^\dag} \frac{\partial p_2}{\partial a_2} \right)=0
-		\\
-		\{x_1(a_1, a^\dag_1), x_2(a_2, a^\dag_2)\}=0 (similarly)
-		\\
-		\{x_1(a_1, a^\dag_1), p_1(a_1, a^\dag_1)\}=\left(\frac{\partial x_1}{\partial a_1} \frac{\partial p_1}{\partial a_1^\dag} - \frac{\partial x_1}{\partial a_1^\dag} \frac{\partial p_1}{\partial a_1}\right) + \left(\frac{\partial x_1}{\partial a_2} \frac{\partial p_1}{\partial a_2^\dag} - \frac{\partial x_1}{\partial a_2^\dag} \frac{\partial p_1}{\partial a_2} \right) = \sqrt{\frac{1}{2M \omega}} i \sqrt{\frac{m \omega}{2}}+\sqrt{\frac{1}{2M \omega}} i \sqrt{\frac{m \omega}{2}}=i
-		\\
-		\{x_2(a_2, a^\dag_2), p_2(a_2, a^\dag_2)\}=i (similarly) 
-		\\
-		\{x_1(a_1, a^\dag_1), p_2(a_2, a^\dag_2)\}=\left(\frac{\partial x_1}{\partial a_1} \frac{\partial p_2}{\partial a_1^\dag} - \frac{\partial x_1}{\partial a_1^\dag} \frac{\partial p_2}{\partial a_1}\right) + \left(\frac{\partial x_1}{\partial a_2} \frac{\partial p_2}{\partial a_2^\dag} - \frac{\partial x_1}{\partial a_2^\dag} \frac{\partial p_2}{\partial a_2} \right)=0
-		\\
-		\{x_2(a_2, a^\dag_2), p_1(a_1, a^\dag_1)\}=0 (similarly)
-	\end{cases}
-\end{align*}
+These conditions can be easily checked:
+
+$\{a_1(x_1, p_1), a_1^\dag(x_1, p_1)\}=\left(\frac{\partial a_1}{\partial x_1} \frac{\partial a_1^\dag}{\partial p_1} - \frac{\partial a_1}{\partial p_1} \frac{\partial a_1^\dag}{\partial x_1}\right) + \left(\frac{\partial a_1}{\partial x_2} \frac{\partial a_1^\dag}{\partial p_2} - \frac{\partial a_1}{\partial p_2} \frac{\partial a_1^\dag}{\partial x_2} \right) = \sqrt{\frac{M\omega}{2}} \frac{1}{i\sqrt{2M\omega}}+\frac{1}{i \sqrt{2M \omega}} \sqrt{\frac{M \omega}{2}}=-i$\newline
+
 These are canonical equations with valence $i$.
 So, Hamiltonian (1) will look like:
-
 \begin{align*}
-	H=i a_1 a_1^\dag \omega + i a_2 a_2^\dag \omega - ig(a_1+a_1^\dag)(a_2+a_2^\dag),
+	H=-i a_1 a_1^\dag \omega - i a_2 a_2^\dag \omega + ig(a_1+a_1^\dag)(a_2+a_2^\dag),
 \end{align*}
 where $g = \frac{k_g}{2\sqrt{M}\sqrt{k+k_g}}$ - interaction constant.\newline
 
-Now write down Hamilton equations. We will write only equations for $a_1$ and $a_2$, because another two equations are just complex conjugates of first ones and are not sufficient.
+Now write down Hamilton equations. We will write only equations for $a_1$ and $a_2$, because another two equations are just complex conjugates of first ones and are not necessary.
 \begin{align*}
 	\begin{cases}
 		\dot a_1 = -a_1 i \omega + ig(a_2 + a_2^\dag)
@@ -152,7 +139,7 @@ Now make the following ansatz: $a_1(t) = a_1(t)e^{-i\omega t}, a_2(t) = a_2(t)e^
 	\end{cases}
 \end{align*}
 
-In case of weak connection ($k>>k_g$) one can apply rotating wave approximation (RWA). It allows to remove slowly oscillating members from equations. Here, $e^{i\omega t} \approx 0$, so then:
+In case of weak coupling ($k>>k_g$) one can apply rotating wave approximation (RWA). It allows to remove slowly oscillating terms from equations. Here, $e^{i\omega t} \approx 0$, so then:
 \begin{align*}
 	\begin{cases}
 		\dot a_1 = iga_2
@@ -190,3 +177,4 @@ Now a solution can be written down in a more simple way. Solutions are shown on 
 \end{figure}
 
 \end{document}
+
