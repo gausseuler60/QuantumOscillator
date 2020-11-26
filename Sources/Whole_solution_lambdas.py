@@ -1,22 +1,13 @@
 import numpy as np
 from scipy import linalg
 from matplotlib import pyplot as plt
-from PlotCache import *
-
-
-#A script for performong calculations in article <insert article name>
-#Performs calculations, makes plots and saves them into PDF format.
-#Calculated values are cached, so if you start a program again, data will be restored from cache
-#Call this script with -u command-line option to recalculate and update cache
-
-plt.rcParams.update({'font.size': 15})
+import Lib.EasyPlot as ep
+import os
 
 betas = np.linspace(0,10,200)
 
-def CalculateSolution():
-    M_ = k_ = kg_ = 1
-
-    
+def CalculateSolution(betas, k_, kg_, M_):
+  
     eigvals = np.zeros((len(betas),8))
 
     for r, beta_ in enumerate(betas):
@@ -27,20 +18,15 @@ def CalculateSolution():
             eigvals[r, 2*i+1] = abs(np.imag(num))
 
     return eigvals
-        
-fname = 'Whole_solution.pkl'
-if IsInCache(fname):
-    eigvals = ReadSolution(fname)
-else:
-    eigvals = CalculateSolution()
-    SaveSolution(eigvals, fname)
 
-titles = np.hstack([(fr'Re $\lambda_{i+1}$', fr'Im $\lambda_{i+1}$') for i in range(4)])
-plt.figure(figsize=(10,10))
-for i, tit in enumerate(titles):
-    plt.xlabel(r'$\beta$')
-    plt.ylabel('Eigenvalues')
-    plt.plot(betas, eigvals[:,i], linewidth=2, label=tit)
-plt.legend()  
+plt.figure()
+lplt = ep.LambdasPlot('Simple_lambdas')
+lplt.set_xvalues(betas, r'$\beta$', r'$\lambda_{1,2}$')
+lplt.set_solver(CalculateSolution)
+lplt.set_display_names(k_='$k$', kg_='$k_g$', M_='$M$')
+lplt.plot_one(plt,kg_=1, k_=1, M_=1)
+
 plt.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_2.pdf'))
-plt.show()
+if __name__ == '__main__': # do not show in run_all, where this file is imported
+    plt.show()
+

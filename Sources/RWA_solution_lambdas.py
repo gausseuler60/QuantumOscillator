@@ -1,40 +1,36 @@
 import numpy as np
 import sympy as sp
-from scipy import linalg
 from matplotlib import pyplot as plt
+import Lib.EasyPlot as ep
 import os
-from PlotCache import *
 
+betas = np.linspace(0,10,200, dtype = np.complex)
 
-t, k, k_g, M, beta = sp.symbols("t,k,k_g,M,beta")
-g = (k_g)/(2*sp.sqrt(M*(k+k_g)))
+def CalculateSolution(betas_range, k_, kg_, M_):
+    t, k, k_g, M, beta = sp.symbols("t,k,k_g,M,beta")
+    g = (k_g)/(2*sp.sqrt(M*(k+k_g)))
 
-A = sp.Matrix([[0, 1j*g], [1j*g, -beta/2]])
+    A = sp.Matrix([[0, 1j*g], [1j*g, -beta/2]])
 
-eigs = list(A.eigenvals().keys())
-
-betas_range = np.linspace(0,10,200, dtype=complex)
-M_ = k_ = kg_ = 1+0j
-
-plt.rcParams.update({'font.size': 20})
-plt.figure(figsize=(10,10))
-
-cache_name = 'RWA_solution.pkl'
-if IsInCache(cache_name):
-    vals = ReadSolution(cache_name)
-    
-else:
-    vals = [sp.lambdify(beta, eig.subs([(M,M_), (k,k_), (k_g, kg_)]))(betas_range)
+    eigs = list(A.eigenvals().keys())
+    vals = [sp.lambdify(beta, eig.subs([(M,M_*(1+0j)), (k,k_*(1+0j)), (k_g, kg_*(1+0j))]))(betas_range)
             for eig in eigs]
-    SaveSolution(vals, cache_name)
-    
-for i, v in enumerate(vals):
-    plt.plot(betas_range, abs(np.real(v)), label=fr'$Re \lambda_{i+1}$', linewidth=3)
-    plt.plot(betas_range, abs(np.imag(v)), label=fr'$Im \lambda_{i+1}$', linewidth=3)
 
-plt.legend()
-plt.xlabel(r'$\beta$')
-plt.ylabel(r'$\lambda_{1,2}$')
+    eigvals = np.zeros((len(betas), len(vals)*2)) #for real and complex parts
+    
+    for i, num in enumerate(vals):
+        eigvals[:, 2*i] = np.abs(np.real(num))
+        eigvals[:, 2*i+1] = np.abs(np.imag(num))
+    return eigvals
+
+plt.figure()
+lplt = ep.LambdasPlot('Simple_RWA_motion')
+lplt.set_xvalues(betas, r'$\beta$', r'$\lambda_{1,2}$')
+lplt.set_display_names(k_='$k$', kg_='$k_g$', M_='$M$')
+lplt.set_solver(CalculateSolution)
+lplt.plot_one(plt, k_=1, kg_=1, M_=1)
 plt.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_4.pdf'))
-plt.show()
+if __name__ == '__main__': # do not show in run_all, where this file is imported
+    plt.show()
+
 

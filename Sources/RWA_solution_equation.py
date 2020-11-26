@@ -1,14 +1,13 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from odeintw import odeintw #may be not installed, install it with pip
-from PlotCache import *
+from Lib.EasyPlot import ClassicAndRWAPlot
+import os
+
+x = np.linspace(1, 50, 1000)
 
 #Get solution with RWA approximation
-def get_solution(t, k, kg, M, beta, init_cond):
-    cache_name = f'RWA_{k}_{kg}_{M}_{beta}_{t[0]}_{t[-1]}.pkl'
-    if IsInCache(cache_name):
-        return ReadSolution(cache_name)
-        
+def get_solution(t, k, kg, M, beta, init_cond=[20,0,0,0]):
     omega = np.sqrt((k+kg)/M)
     
     #differential equations system
@@ -41,15 +40,10 @@ def get_solution(t, k, kg, M, beta, init_cond):
     x1 = np.sqrt(1/(2*M*omega)) * (a1 + a1_dag)
     x2 = np.sqrt(1/(2*M*omega)) * (a2 + a2_dag)
 
-    SaveSolution((x1,x2), cache_name)
-    return (x1,x2)
+    return np.hstack((np.reshape(x1,(-1,1)), np.reshape(x2,(-1,1))))
 
 #Classical solution
-def get_solution_classic(t, k, kg, M, beta, init_cond):
-    cache_name = f'RWA_{k}_{kg}_{M}_{beta}_{t[0]}_{t[-1]}_gauge.pkl'
-    if IsInCache(cache_name):
-        return ReadSolution(cache_name)
-    
+def get_solution_classic(t, k, kg, M, beta, init_cond=[20,0,0,0]): 
     from scipy.integrate import odeint
     
     def func(y,t,k,kg,M,beta):
@@ -57,34 +51,17 @@ def get_solution_classic(t, k, kg, M, beta, init_cond):
         return [v1, v2, -(k+kg)*x1/M+kg*x2/M, kg*x1/M-(kg+k)*x2/M - beta*v2]
                #x1',x2',          v1',                   v2'
     sol = odeint(func,init_cond,t,args=(k,kg,M,beta))
-    SaveSolution(sol, cache_name)
     return sol
 
-def PlotOne(ax, x1_rwa, x2_rwa, x_classic, k, k_g, M, beta):
-    ax.plot(t,x1_rwa, label='$x_1(t)$ RWA')
-    ax.plot(t,x2_rwa, label='$x_1(t)$ RWA')
-    ax.plot(t,x_classic[:,0],'--', label='$x_1(t)$ classic')
-    ax.plot(t,x_classic[:,1],'--', label='$x_2(t)$ classic')
-    
-    ax.legend()
-    ax.set_title(rf'$k={k}, k_g={k_g}, M={M}, \beta={beta}$')
-    ax.set_xlabel('$t$')
-    ax.set_ylabel('$x(t)$')
-
-
-#fig. 5
-init_cond = [20,0,0,0]
-t=np.linspace(0, 50, 150)
-
-params = ([5, 0.1, 30, 1], [5, 10, 30, 1])
-
-fig, ax = plt.subplots(1, 2, figsize=(25,10))
-plt.rcParams.update({'font.size': 20})
-
-for i, p in enumerate(params):
-    x1, x2 = get_solution(t, *p, init_cond)
-    classic = get_solution_classic(t, *p, init_cond)
-    PlotOne(ax[i], x1, x2, classic, *p)
-
+plt.figure()
+p = ClassicAndRWAPlot('Simple_RWA')
+p.set_xvalues(x, '$t$', '$x_{1,2}(t)$')
+p.set_solver(get_solution)
+p.set_solver_classic(get_solution_classic)
+p.set_display_names(M='$M$', k='$k$', kg='$k_g$', beta=r'$\beta$')
+p.figsize = (25,10)
+p.plot_grid_wrapped(1, 'kg', [0.1, 10], k=5, M=30, beta = 1)
 plt.savefig(os.path.join(os.getcwd(), '..', 'images', 'Fig_5.pdf'))
-plt.show()
+if __name__ == '__main__': # do not show in run_all, where this file is imported
+    plt.show()
+
